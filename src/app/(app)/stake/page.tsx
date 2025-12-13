@@ -168,7 +168,7 @@ export default function StakePage() {
             <span className="text-sm text-gray-400">Available</span>
           </div>
           <div className="flex items-baseline gap-2">
-            <p className="text-2xl font-bold text-white">{mockStakingData.publicBalance}</p>
+            <p className="text-2xl font-bold text-white">{balance.public}</p>
             <span className="text-sm text-gray-400">SAGE</span>
             <Eye className="w-3 h-3 text-gray-500 ml-1" />
           </div>
@@ -320,7 +320,7 @@ export default function StakePage() {
                     ) : (
                       <>
                         <Eye className="w-3 h-3" />
-                        <span>{mockStakingData.publicBalance} SAGE available</span>
+                        <span>{balance.public} SAGE available</span>
                       </>
                     )
                   ) : (

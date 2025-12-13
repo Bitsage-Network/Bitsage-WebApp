@@ -282,12 +282,61 @@ npm run type-check
 
 ### Environment Variables
 
-Create a `.env.local` file:
+Create a `.env.local` file (see `.env.example`):
 
 ```env
 NEXT_PUBLIC_STARKNET_NETWORK=sepolia
 NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID=your_project_id
 NEXT_PUBLIC_ENABLE_TESTNETS=true
+NEXT_PUBLIC_DEMO_MODE=true
+```
+
+---
+
+## 🚀 Deployment
+
+### Deploy to Vercel (Recommended)
+
+The easiest way to deploy is using Vercel:
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/Bitsage-Network/Bitsage-WebApp)
+
+**Steps**:
+
+1. Click the "Deploy with Vercel" button above
+2. Connect your GitHub account
+3. Configure environment variables (optional)
+4. Click "Deploy"
+
+**Password Protection**: The demo is password-protected with the password `Obelysk`. Users will see an auth page before accessing the application.
+
+### Manual Deployment
+
+```bash
+# Install Vercel CLI
+npm i -g vercel
+
+# Deploy to Vercel
+cd BitSage-WebApp
+vercel
+
+# Deploy to production
+vercel --prod
+```
+
+### Other Platforms
+
+**Netlify**:
+```bash
+npm run build
+# Deploy the .next folder
+```
+
+**Self-Hosted**:
+```bash
+npm run build
+npm start
+# Runs on port 3000
 ```
 
 ---

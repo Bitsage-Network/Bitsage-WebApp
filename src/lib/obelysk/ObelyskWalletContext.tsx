@@ -387,7 +387,7 @@ export function ObelyskWalletProvider({ children }: { children: ReactNode }) {
     provingState,
     provingTime,
     resetProvingState,
-    isConnected,
+    isConnected: isConnected || false,
     connectorId: connector?.id || null,
   };
 

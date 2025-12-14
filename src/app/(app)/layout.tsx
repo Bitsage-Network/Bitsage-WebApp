@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { Sidebar } from "@/components/layout/Sidebar";
 import { TopBar } from "@/components/layout/TopBar";
 import { Loader2 } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 export default function AppLayout({
   children,
@@ -17,6 +18,7 @@ export default function AppLayout({
   const [mounted, setMounted] = useState(false);
   const [isDemoMode, setIsDemoMode] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(true); // Default to collapsed
+  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false); // Mobile sidebar state
 
   useEffect(() => {
     setMounted(true);
@@ -56,13 +58,20 @@ export default function AppLayout({
 
   return (
     <div className="min-h-screen bg-surface-dark bg-grid">
-      <Sidebar collapsed={sidebarCollapsed} onToggle={() => setSidebarCollapsed(!sidebarCollapsed)} />
+      <Sidebar 
+        collapsed={sidebarCollapsed} 
+        onToggle={() => setSidebarCollapsed(!sidebarCollapsed)}
+        mobileOpen={mobileSidebarOpen}
+        onMobileClose={() => setMobileSidebarOpen(false)}
+      />
       <div 
-        className="min-h-screen transition-all duration-300 flex flex-col"
-        style={{ marginLeft: sidebarCollapsed ? 80 : 280 }}
+        className={cn(
+          "min-h-screen transition-all duration-300 flex flex-col",
+          sidebarCollapsed ? "lg:ml-[80px]" : "lg:ml-[280px]"
+        )}
       >
-        <TopBar />
-        <main className="flex-1 p-8">
+        <TopBar onMenuClick={() => setMobileSidebarOpen(true)} />
+        <main className="flex-1 p-4 sm:p-6 lg:p-8">
           {children}
         </main>
       </div>

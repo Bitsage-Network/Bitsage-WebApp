@@ -346,21 +346,21 @@ export default function ObelyskWalletPage() {
   ];
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-brand-500 to-purple-600 flex items-center justify-center">
-            <Wallet className="w-6 h-6 text-white" />
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-0">
+        <div className="flex items-center gap-2 sm:gap-3">
+          <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-gradient-to-br from-brand-500 to-purple-600 flex items-center justify-center">
+            <Wallet className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold text-white">Obelysk Wallet</h1>
-            <p className="text-sm text-gray-400">Privacy-first GPU earnings</p>
+            <h1 className="text-xl sm:text-2xl font-bold text-white">Obelysk Wallet</h1>
+            <p className="text-xs sm:text-sm text-gray-400">Privacy-first GPU earnings</p>
           </div>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 ml-auto sm:ml-0">
           <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-          <span className="text-sm text-emerald-400">Connected</span>
+          <span className="text-xs sm:text-sm text-emerald-400">Connected</span>
         </div>
       </div>
 
@@ -374,14 +374,14 @@ export default function ObelyskWalletPage() {
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
               className={cn(
-                "flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-lg font-medium transition-all",
+                "flex-1 flex items-center justify-center gap-1.5 sm:gap-2 py-2.5 sm:py-3 px-2 sm:px-4 rounded-lg text-sm sm:text-base font-medium transition-all",
                 isActive
                   ? "bg-brand-600 text-white"
                   : "text-gray-400 hover:text-white hover:bg-surface-elevated"
               )}
             >
-              <Icon className="w-4 h-4" />
-              {tab.label}
+              <Icon className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+              <span className="hidden xs:inline">{tab.label}</span>
             </button>
           );
         })}
@@ -504,37 +504,37 @@ function OverviewTab({
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
-      className="space-y-6 max-w-2xl mx-auto"
+      className="space-y-4 sm:space-y-6 max-w-2xl mx-auto"
     >
       {/* Main Balance Card */}
       <div className="glass-card overflow-hidden">
-        <div className="p-6 text-center bg-gradient-to-b from-surface-card to-surface-elevated">
-          <p className="text-4xl font-bold text-white mb-2">
+        <div className="p-4 sm:p-6 text-center bg-gradient-to-b from-surface-card to-surface-elevated">
+          <p className="text-3xl sm:text-4xl font-bold text-white mb-2">
             {mockWalletData.totalUsdValue}
           </p>
           
-          <div className="flex items-center justify-center gap-2 mb-4">
+          <div className="flex items-center justify-center gap-1.5 sm:gap-2 mb-3 sm:mb-4 flex-wrap">
             {showPrivateBalance ? (
-              <span className="text-lg text-white">
+              <span className="text-base sm:text-lg text-white">
                 {mockWalletData.privateBalance} SAGE
               </span>
             ) : (
-              <span className="text-lg text-brand-400 font-mono tracking-wider">
+              <span className="text-base sm:text-lg text-brand-400 font-mono tracking-wider">
                 ••••••• SAGE
               </span>
             )}
-            <span className="text-sm text-brand-400">(Private)</span>
+            <span className="text-xs sm:text-sm text-brand-400">(Private)</span>
             <button
               onClick={() => showPrivateBalance ? onHidePrivate() : onRevealPrivate()}
               disabled={isSigningToReveal}
               className="p-1 rounded hover:bg-surface-elevated transition-colors"
             >
               {isSigningToReveal ? (
-                <Loader2 className="w-4 h-4 text-brand-400 animate-spin" />
+                <Loader2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-brand-400 animate-spin" />
               ) : showPrivateBalance ? (
-                <EyeOff className="w-4 h-4 text-gray-400" />
+                <EyeOff className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-400" />
               ) : (
-                <Eye className="w-4 h-4 text-brand-400" />
+                <Eye className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-brand-400" />
               )}
             </button>
           </div>
@@ -553,70 +553,70 @@ function OverviewTab({
           </p>
         </div>
 
-        <div className="p-4 border-t border-surface-border grid grid-cols-2 gap-3">
+        <div className="p-3 sm:p-4 border-t border-surface-border grid grid-cols-2 gap-2 sm:gap-3">
           <button
             onClick={onShowPayModal}
-            className="flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-medium transition-colors"
+            className="flex items-center justify-center gap-1.5 sm:gap-2 py-2.5 sm:py-3 px-3 sm:px-4 rounded-xl bg-brand-600 hover:bg-brand-500 text-white text-sm sm:text-base font-medium transition-colors"
           >
-            <ArrowUpRight className="w-5 h-5" />
+            <ArrowUpRight className="w-4 h-4 sm:w-5 sm:h-5" />
             Pay
           </button>
           <button
             onClick={onShowRequestModal}
-            className="flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-surface-elevated hover:bg-surface-border text-white font-medium transition-colors border border-surface-border"
+            className="flex items-center justify-center gap-1.5 sm:gap-2 py-2.5 sm:py-3 px-3 sm:px-4 rounded-xl bg-surface-elevated hover:bg-surface-border text-white text-sm sm:text-base font-medium transition-colors border border-surface-border"
           >
-            <ArrowDownLeft className="w-5 h-5" />
+            <ArrowDownLeft className="w-4 h-4 sm:w-5 sm:h-5" />
             Request
           </button>
         </div>
 
-        <div className="p-4 border-t border-surface-border grid grid-cols-2 gap-3">
+        <div className="p-3 sm:p-4 border-t border-surface-border grid grid-cols-2 gap-2 sm:gap-3">
           <button
             onClick={onShowRolloverModal}
-            className="flex items-center justify-center gap-2 py-2.5 px-4 rounded-lg bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 text-sm font-medium transition-colors border border-emerald-500/20"
+            className="flex items-center justify-center gap-1.5 sm:gap-2 py-2 sm:py-2.5 px-3 sm:px-4 rounded-lg bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 text-xs sm:text-sm font-medium transition-colors border border-emerald-500/20"
           >
-            <RefreshCw className="w-4 h-4" />
+            <RefreshCw className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
             Rollover
           </button>
           <button
             onClick={onShowRagequitModal}
-            className="flex items-center justify-center gap-2 py-2.5 px-4 rounded-lg bg-red-500/10 hover:bg-red-500/20 text-red-400 text-sm font-medium transition-colors border border-red-500/20"
+            className="flex items-center justify-center gap-1.5 sm:gap-2 py-2 sm:py-2.5 px-3 sm:px-4 rounded-lg bg-red-500/10 hover:bg-red-500/20 text-red-400 text-xs sm:text-sm font-medium transition-colors border border-red-500/20"
           >
-            <AlertTriangle className="w-4 h-4" />
+            <AlertTriangle className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
             Ragequit
           </button>
         </div>
       </div>
 
       {/* Balance Breakdown */}
-      <div className="grid grid-cols-3 gap-4">
-        <div className="glass-card p-4">
-          <div className="flex items-center gap-2 mb-2">
-            <Eye className="w-4 h-4 text-gray-400" />
-            <span className="text-xs text-gray-400">Public</span>
+      <div className="grid grid-cols-3 gap-2 sm:gap-4">
+        <div className="glass-card p-3 sm:p-4">
+          <div className="flex items-center gap-1 sm:gap-2 mb-1 sm:mb-2">
+            <Eye className="w-3 h-3 sm:w-4 sm:h-4 text-gray-400" />
+            <span className="text-[10px] sm:text-xs text-gray-400">Public</span>
           </div>
-          <p className="text-lg font-bold text-white">{mockWalletData.publicBalance}</p>
-          <p className="text-xs text-gray-500">SAGE</p>
+          <p className="text-base sm:text-lg font-bold text-white truncate">{mockWalletData.publicBalance}</p>
+          <p className="text-[10px] sm:text-xs text-gray-500">SAGE</p>
         </div>
         
-        <div className="glass-card p-4 bg-gradient-to-br from-brand-600/10 to-purple-600/10 border-brand-500/30">
-          <div className="flex items-center gap-2 mb-2">
-            <EyeOff className="w-4 h-4 text-brand-400" />
-            <span className="text-xs text-brand-400">Private</span>
+        <div className="glass-card p-3 sm:p-4 bg-gradient-to-br from-brand-600/10 to-purple-600/10 border-brand-500/30">
+          <div className="flex items-center gap-1 sm:gap-2 mb-1 sm:mb-2">
+            <EyeOff className="w-3 h-3 sm:w-4 sm:h-4 text-brand-400" />
+            <span className="text-[10px] sm:text-xs text-brand-400">Private</span>
           </div>
-          <p className="text-lg font-bold text-brand-400 font-mono">
+          <p className="text-base sm:text-lg font-bold text-brand-400 font-mono truncate">
             {showPrivateBalance ? mockWalletData.privateBalance : "•••••"}
           </p>
-          <p className="text-xs text-gray-500">SAGE</p>
+          <p className="text-[10px] sm:text-xs text-gray-500">SAGE</p>
         </div>
         
-        <div className="glass-card p-4">
-          <div className="flex items-center gap-2 mb-2">
-            <Clock className="w-4 h-4 text-orange-400" />
-            <span className="text-xs text-orange-400">Pending</span>
+        <div className="glass-card p-3 sm:p-4">
+          <div className="flex items-center gap-1 sm:gap-2 mb-1 sm:mb-2">
+            <Clock className="w-3 h-3 sm:w-4 sm:h-4 text-orange-400" />
+            <span className="text-[10px] sm:text-xs text-orange-400">Pending</span>
           </div>
-          <p className="text-lg font-bold text-orange-400">+{mockWalletData.pendingEarnings}</p>
-          <p className="text-xs text-gray-500">SAGE</p>
+          <p className="text-base sm:text-lg font-bold text-orange-400 truncate">+{mockWalletData.pendingEarnings}</p>
+          <p className="text-[10px] sm:text-xs text-gray-500">SAGE</p>
         </div>
       </div>
 
@@ -721,27 +721,27 @@ function ActivityTab({
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
-      className="space-y-4"
+      className="space-y-3 sm:space-y-4"
     >
       {/* Filters */}
-      <div className="flex flex-col sm:flex-row gap-4">
+      <div className="flex flex-col gap-2 sm:gap-4">
         <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-gray-500" />
           <input
             type="text"
             placeholder="Search transactions..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="input-field pl-10 w-full"
+            className="input-field pl-9 sm:pl-10 w-full text-sm"
           />
         </div>
-        <div className="flex gap-2">
+        <div className="flex gap-1.5 sm:gap-2 overflow-x-auto pb-1">
           {(["all", "sent", "received", "earnings"] as const).map((f) => (
             <button
               key={f}
               onClick={() => setFilter(f)}
               className={cn(
-                "px-4 py-2 rounded-lg text-sm font-medium transition-all",
+                "px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg text-xs sm:text-sm font-medium transition-all whitespace-nowrap flex-shrink-0",
                 filter === f
                   ? "bg-brand-600 text-white"
                   : "bg-surface-elevated text-gray-400 hover:text-white"
@@ -1544,34 +1544,34 @@ function TransactionRow({
   expanded?: boolean;
 }) {
   return (
-    <div className="p-4 flex items-center justify-between hover:bg-surface-elevated/50 transition-colors">
-      <div className="flex items-center gap-3">
+    <div className="p-3 sm:p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-2 sm:gap-3 hover:bg-surface-elevated/50 transition-colors">
+      <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1">
         <div className={cn(
-          "w-10 h-10 rounded-full flex items-center justify-center",
+          "w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center flex-shrink-0",
           tx.type === "send" && "bg-red-500/10",
           tx.type === "receive" && "bg-emerald-500/10",
           tx.type === "rollover" && "bg-brand-500/10",
           tx.type === "gpu_earning" && "bg-orange-500/10",
           tx.type === "stake" && "bg-purple-500/10"
         )}>
-          {tx.type === "send" && <ArrowUpRight className="w-5 h-5 text-red-400" />}
-          {tx.type === "receive" && <ArrowDownLeft className="w-5 h-5 text-emerald-400" />}
-          {tx.type === "rollover" && <RefreshCw className="w-5 h-5 text-brand-400" />}
-          {tx.type === "gpu_earning" && <Zap className="w-5 h-5 text-orange-400" />}
-          {tx.type === "stake" && <Lock className="w-5 h-5 text-purple-400" />}
+          {tx.type === "send" && <ArrowUpRight className="w-4 h-4 sm:w-5 sm:h-5 text-red-400" />}
+          {tx.type === "receive" && <ArrowDownLeft className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-400" />}
+          {tx.type === "rollover" && <RefreshCw className="w-4 h-4 sm:w-5 sm:h-5 text-brand-400" />}
+          {tx.type === "gpu_earning" && <Zap className="w-4 h-4 sm:w-5 sm:h-5 text-orange-400" />}
+          {tx.type === "stake" && <Lock className="w-4 h-4 sm:w-5 sm:h-5 text-purple-400" />}
         </div>
-        <div>
-          <p className="text-sm font-medium text-white">
+        <div className="min-w-0 flex-1">
+          <p className="text-xs sm:text-sm font-medium text-white truncate">
             {tx.type === "send" && `To ${tx.recipientName || formatObelyskAddress(tx.recipient!, { truncate: true, prefix: false })}`}
             {tx.type === "receive" && `From ${tx.recipientName || formatAddress(tx.recipient!)}`}
             {tx.type === "rollover" && "Rollover"}
             {tx.type === "gpu_earning" && tx.recipientName}
             {tx.type === "stake" && tx.recipientName}
           </p>
-          <p className="text-xs text-gray-500">
+          <p className="text-[10px] sm:text-xs text-gray-500 truncate">
             {tx.isPrivate ? (
               <span className="text-brand-400 flex items-center gap-1">
-                <Lock className="w-3 h-3" /> Private
+                <Lock className="w-2.5 h-2.5 sm:w-3 sm:h-3" /> Private
               </span>
             ) : tx.recipient ? (
               <span className="font-mono">
@@ -1584,10 +1584,10 @@ function TransactionRow({
           </p>
         </div>
       </div>
-      <div className="text-right flex items-center gap-3">
-        <div>
+      <div className="flex items-center justify-between sm:justify-end gap-2 sm:gap-3 ml-auto sm:ml-0">
+        <div className="text-left sm:text-right">
           <p className={cn(
-            "text-sm font-medium",
+            "text-xs sm:text-sm font-medium",
             tx.amount.startsWith("+") ? "text-emerald-400" : "text-white"
           )}>
             {tx.isPrivate ? (
@@ -1596,19 +1596,19 @@ function TransactionRow({
               `${tx.amount} SAGE`
             )}
           </p>
-          <p className="text-xs text-gray-500">{formatTimeAgo(tx.timestamp)}</p>
+          <p className="text-[10px] sm:text-xs text-gray-500">{formatTimeAgo(tx.timestamp)}</p>
         </div>
         {expanded && tx.txHash && (
           <a
             href={`https://sepolia.starkscan.co/tx/${tx.txHash}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="p-2 rounded-lg hover:bg-surface-elevated transition-colors"
+            className="p-1.5 sm:p-2 rounded-lg hover:bg-surface-elevated transition-colors"
           >
-            <ExternalLink className="w-4 h-4 text-gray-500" />
+            <ExternalLink className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-500" />
           </a>
         )}
-        <ChevronRight className="w-4 h-4 text-gray-600" />
+        <ChevronRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-600 flex-shrink-0" />
       </div>
     </div>
   );

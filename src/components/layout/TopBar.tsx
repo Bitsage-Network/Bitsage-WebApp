@@ -17,10 +17,15 @@ import {
   Zap,
   TrendingUp,
   Send,
+  Menu,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-export function TopBar() {
+interface TopBarProps {
+  onMenuClick?: () => void;
+}
+
+export function TopBar({ onMenuClick }: TopBarProps) {
   const pathname = usePathname();
   const { address, status } = useAccount();
   const { disconnect } = useDisconnect();
@@ -64,17 +69,24 @@ export function TopBar() {
 
   return (
     <div className="h-14 bg-surface-card border-b border-surface-border flex items-center justify-between px-4 sticky top-0 z-30">
-      {/* Left side - empty for now */}
+      {/* Left side - Mobile Menu Button */}
       <div className="flex items-center gap-4">
+        <button
+          onClick={onMenuClick}
+          className="lg:hidden p-2 -ml-2 rounded-lg hover:bg-surface-elevated transition-colors"
+          aria-label="Open menu"
+        >
+          <Menu className="w-5 h-5 text-gray-400" />
+        </button>
       </div>
 
       {/* Right side - Actions */}
       <div className="flex items-center gap-2">
-        {/* Workloads Button (Dot Grid) */}
+        {/* Workloads Button (Dot Grid) - Hidden on smallest screens */}
         <Link
           href="/workloads"
           className={cn(
-            "p-2.5 rounded-lg transition-all",
+            "hidden sm:block p-2.5 rounded-lg transition-all",
             isWorkloadsActive
               ? "bg-brand-600/20 text-brand-400"
               : "hover:bg-surface-elevated text-gray-400 hover:text-white"
@@ -94,10 +106,10 @@ export function TopBar() {
           </div>
         </Link>
 
-        {/* Divider */}
-        <div className="w-px h-6 bg-surface-border mx-1" />
+        {/* Divider - Hidden on smallest screens */}
+        <div className="hidden sm:block w-px h-6 bg-surface-border mx-1" />
 
-        {/* Send */}
+        {/* Send - Always visible */}
         <Link
           href="/send"
           className={cn(
@@ -111,11 +123,11 @@ export function TopBar() {
           <Send className="w-5 h-5" />
         </Link>
 
-        {/* Faucet */}
+        {/* Faucet - Hidden on mobile */}
         <Link
           href="/faucet"
           className={cn(
-            "p-2.5 rounded-lg transition-colors",
+            "hidden md:block p-2.5 rounded-lg transition-colors",
             pathname === "/faucet"
               ? "bg-cyan-500/20 text-cyan-400"
               : "hover:bg-surface-elevated text-gray-400 hover:text-cyan-400"
@@ -125,11 +137,11 @@ export function TopBar() {
           <Droplets className="w-5 h-5" />
         </Link>
 
-        {/* Network */}
+        {/* Network - Hidden on mobile */}
         <Link
           href="/network"
           className={cn(
-            "p-2.5 rounded-lg transition-colors",
+            "hidden md:block p-2.5 rounded-lg transition-colors",
             pathname === "/network"
               ? "bg-emerald-500/20 text-emerald-400"
               : "hover:bg-surface-elevated text-gray-400 hover:text-emerald-400"
@@ -139,11 +151,11 @@ export function TopBar() {
           <Globe className="w-5 h-5" />
         </Link>
 
-        {/* Docs */}
+        {/* Docs - Hidden on mobile */}
         <Link
           href="/docs"
           className={cn(
-            "p-2.5 rounded-lg transition-colors",
+            "hidden md:block p-2.5 rounded-lg transition-colors",
             pathname === "/docs"
               ? "bg-orange-500/20 text-orange-400"
               : "hover:bg-surface-elevated text-gray-400 hover:text-orange-400"

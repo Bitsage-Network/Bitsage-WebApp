@@ -101,6 +101,22 @@
   .badge-info {
     @apply bg-brand-500/20 text-brand-400 border border-brand-500/30;
   }
+
+  /* Mobile-specific utilities */
+  @media (max-width: 640px) {
+    .btn-glow,
+    .btn-secondary {
+      @apply text-sm px-4 py-2;
+    }
+
+    .input-field {
+      @apply text-sm px-3 py-2.5;
+    }
+
+    .glass-card {
+      @apply rounded-xl;
+    }
+  }
 }
 
 @layer utilities {
@@ -121,5 +137,39 @@
   /* Glow effect */
   .glow {
     @apply shadow-glow-md;
+  }
+
+  /* Mobile touch optimizations */
+  @media (max-width: 768px) {
+    /* Prevent text selection on interactive elements */
+    button,
+    .nav-item,
+    .badge {
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+  }
+
+  /* Reduced motion for accessibility */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  /* Safe area insets for mobile devices with notches */
+  @supports (padding: max(0px)) {
+    .safe-area-inset-bottom {
+      padding-bottom: max(1rem, env(safe-area-inset-bottom));
+    }
+    
+    .safe-area-inset-top {
+      padding-top: max(1rem, env(safe-area-inset-top));
+    }
   }
 }

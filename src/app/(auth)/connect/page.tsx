@@ -45,8 +45,8 @@ export default function ConnectPage() {
     <div className="min-h-screen bg-surface-dark bg-grid flex items-center justify-center p-4">
       {/* Background gradient effects */}
       <div className="fixed inset-0 pointer-events-none">
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-brand-500/20 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-accent-purple/20 rounded-full blur-3xl" />
+        <div className="absolute top-0 left-1/4 w-64 h-64 sm:w-96 sm:h-96 bg-brand-500/20 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 right-1/4 w-64 h-64 sm:w-96 sm:h-96 bg-accent-purple/20 rounded-full blur-3xl" />
       </div>
 
       <motion.div
@@ -56,27 +56,27 @@ export default function ConnectPage() {
         className="relative z-10 w-full max-w-md"
       >
         {/* Logo & Title */}
-        <div className="text-center mb-8">
+        <div className="text-center mb-6 sm:mb-8">
           <motion.div
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
             transition={{ delay: 0.2, type: "spring" }}
-            className="inline-flex items-center justify-center w-20 h-20 mb-4"
+            className="inline-flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 mb-3 sm:mb-4"
           >
-            <LogoIcon className="text-brand-400" size={72} />
+            <LogoIcon className="text-brand-400" size={56} />
           </motion.div>
-          <h1 className="text-3xl font-bold text-white mb-2">
+          <h1 className="text-2xl sm:text-3xl font-bold text-white mb-2">
             Welcome to <span className="text-gradient">BitSage</span>
           </h1>
-          <p className="text-gray-400">
+          <p className="text-sm sm:text-base text-gray-400 px-4">
             Connect your wallet to access decentralized GPU compute
           </p>
         </div>
 
         {/* Connect Card */}
-        <div className="glass-card p-6">
-          <h2 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-            <Wallet className="w-5 h-5 text-brand-400" />
+        <div className="glass-card p-4 sm:p-6">
+          <h2 className="text-base sm:text-lg font-semibold text-white mb-3 sm:mb-4 flex items-center gap-2">
+            <Wallet className="w-4 h-4 sm:w-5 sm:h-5 text-brand-400" />
             Connect Wallet
           </h2>
 
@@ -88,12 +88,12 @@ export default function ConnectPage() {
                 disabled={isPending}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                className="w-full flex items-center justify-between p-4 bg-surface-elevated 
+                className="w-full flex items-center justify-between p-3 sm:p-4 bg-surface-elevated 
                          border border-surface-border rounded-xl hover:border-brand-500/50 
                          transition-all duration-200 group disabled:opacity-50"
               >
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-surface-card flex items-center justify-center">
+                <div className="flex items-center gap-2 sm:gap-3">
+                  <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-surface-card flex items-center justify-center">
                     {connector.icon ? (
                       <img
                         src={typeof connector.icon === 'string' ? connector.icon : connector.icon.dark}
@@ -101,20 +101,20 @@ export default function ConnectPage() {
                         className="w-6 h-6"
                       />
                     ) : (
-                      <Wallet className="w-5 h-5 text-gray-400" />
+                      <Wallet className="w-4 h-4 sm:w-5 sm:h-5 text-gray-400" />
                     )}
                   </div>
                   <div className="text-left">
-                    <p className="font-medium text-white">{connector.name}</p>
-                    <p className="text-sm text-gray-500">
+                    <p className="text-sm sm:text-base font-medium text-white">{connector.name}</p>
+                    <p className="text-xs sm:text-sm text-gray-500">
                       {connector.id === "argentX" ? "Most Popular" : "Secure Wallet"}
                     </p>
                   </div>
                 </div>
                 {isPending ? (
-                  <Loader2 className="w-5 h-5 text-brand-400 animate-spin" />
+                  <Loader2 className="w-4 h-4 sm:w-5 sm:h-5 text-brand-400 animate-spin" />
                 ) : (
-                  <ArrowRight className="w-5 h-5 text-gray-500 group-hover:text-brand-400 transition-colors" />
+                  <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 text-gray-500 group-hover:text-brand-400 transition-colors" />
                 )}
               </motion.button>
             ))}
@@ -177,19 +177,19 @@ export default function ConnectPage() {
         </div>
 
         {/* Features */}
-        <div className="mt-8 grid grid-cols-2 gap-4">
-          <div className="glass-card p-4 text-center">
-            <Shield className="w-6 h-6 text-accent-emerald mx-auto mb-2" />
-            <p className="text-sm text-gray-400">ZK Proof Verified</p>
+        <div className="mt-6 sm:mt-8 grid grid-cols-2 gap-3 sm:gap-4">
+          <div className="glass-card p-3 sm:p-4 text-center">
+            <Shield className="w-5 h-5 sm:w-6 sm:h-6 text-accent-emerald mx-auto mb-1.5 sm:mb-2" />
+            <p className="text-xs sm:text-sm text-gray-400">ZK Proof Verified</p>
           </div>
-          <div className="glass-card p-4 text-center">
-            <LogoIcon className="text-accent-cyan mx-auto mb-2" size={24} />
-            <p className="text-sm text-gray-400">GPU Accelerated</p>
+          <div className="glass-card p-3 sm:p-4 text-center">
+            <LogoIcon className="text-accent-cyan mx-auto mb-1.5 sm:mb-2" size={20} />
+            <p className="text-xs sm:text-sm text-gray-400">GPU Accelerated</p>
           </div>
         </div>
 
         {/* Footer */}
-        <p className="text-center text-sm text-gray-500 mt-8">
+        <p className="text-center text-xs sm:text-sm text-gray-500 mt-6 sm:mt-8 px-4">
           By connecting, you agree to our{" "}
           <a href="#" className="text-brand-400 hover:underline">Terms of Service</a>
         </p>

@@ -312,16 +312,16 @@ export default function JobsPage() {
   const maxJobs = Math.max(...chartData.map(d => d.jobs));
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-0">
         <div>
-          <h1 className="text-2xl font-bold text-white">Job History</h1>
-          <p className="text-gray-400 mt-1">View all jobs processed by your GPUs</p>
+          <h1 className="text-xl sm:text-2xl font-bold text-white">Job History</h1>
+          <p className="text-sm sm:text-base text-gray-400 mt-1">View all jobs processed by your GPUs</p>
         </div>
         <button
           onClick={exportToCSV}
-          className="btn-secondary flex items-center gap-2"
+          className="btn-secondary flex items-center justify-center gap-2 text-sm sm:text-base px-4 py-2 sm:px-6 sm:py-3 w-full sm:w-auto"
         >
           <Download className="w-4 h-4" />
           Export CSV
@@ -329,69 +329,69 @@ export default function JobsPage() {
       </div>
 
       {/* Analytics Cards */}
-      <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 sm:gap-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="glass-card p-4"
+          className="glass-card p-3 sm:p-4"
         >
-          <div className="flex items-center gap-2 text-gray-400 text-sm mb-1">
-            <Briefcase className="w-4 h-4" />
+          <div className="flex items-center gap-1.5 sm:gap-2 text-gray-400 text-xs sm:text-sm mb-1">
+            <Briefcase className="w-3 h-3 sm:w-4 sm:h-4" />
             Total Jobs
           </div>
-          <p className="text-2xl font-bold text-white">{analytics.totalJobs}</p>
+          <p className="text-xl sm:text-2xl font-bold text-white">{analytics.totalJobs}</p>
         </motion.div>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.05 }}
-          className="glass-card p-4"
+          className="glass-card p-3 sm:p-4"
         >
-          <div className="flex items-center gap-2 text-gray-400 text-sm mb-1">
-            <CheckCircle2 className="w-4 h-4" />
+          <div className="flex items-center gap-1.5 sm:gap-2 text-gray-400 text-xs sm:text-sm mb-1">
+            <CheckCircle2 className="w-3 h-3 sm:w-4 sm:h-4" />
             Completed
           </div>
-          <p className="text-2xl font-bold text-emerald-400">{analytics.completedJobs}</p>
+          <p className="text-xl sm:text-2xl font-bold text-emerald-400">{analytics.completedJobs}</p>
         </motion.div>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="glass-card p-4"
+          className="glass-card p-3 sm:p-4 col-span-2 sm:col-span-1"
         >
-          <div className="flex items-center gap-2 text-gray-400 text-sm mb-1">
-            <Zap className="w-4 h-4" />
+          <div className="flex items-center gap-1.5 sm:gap-2 text-gray-400 text-xs sm:text-sm mb-1">
+            <Zap className="w-3 h-3 sm:w-4 sm:h-4" />
             Total Earned
           </div>
-          <p className="text-2xl font-bold text-white">{analytics.totalEarnings} <span className="text-sm text-gray-400">SAGE</span></p>
+          <p className="text-xl sm:text-2xl font-bold text-white">{analytics.totalEarnings} <span className="text-xs sm:text-sm text-gray-400">SAGE</span></p>
         </motion.div>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.15 }}
-          className="glass-card p-4"
+          className="glass-card p-3 sm:p-4"
         >
-          <div className="flex items-center gap-2 text-gray-400 text-sm mb-1">
-            <Clock className="w-4 h-4" />
+          <div className="flex items-center gap-1.5 sm:gap-2 text-gray-400 text-xs sm:text-sm mb-1">
+            <Clock className="w-3 h-3 sm:w-4 sm:h-4" />
             Avg Duration
           </div>
-          <p className="text-2xl font-bold text-white">{Math.floor(analytics.avgDuration / 60)}m {analytics.avgDuration % 60}s</p>
+          <p className="text-xl sm:text-2xl font-bold text-white">{Math.floor(analytics.avgDuration / 60)}m {analytics.avgDuration % 60}s</p>
         </motion.div>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="glass-card p-4"
+          className="glass-card p-3 sm:p-4"
         >
-          <div className="flex items-center gap-2 text-gray-400 text-sm mb-1">
-            <BarChart3 className="w-4 h-4" />
+          <div className="flex items-center gap-1.5 sm:gap-2 text-gray-400 text-xs sm:text-sm mb-1">
+            <BarChart3 className="w-3 h-3 sm:w-4 sm:h-4" />
             Success Rate
           </div>
-          <p className="text-2xl font-bold text-emerald-400">{analytics.successRate}%</p>
+          <p className="text-xl sm:text-2xl font-bold text-emerald-400">{analytics.successRate}%</p>
         </motion.div>
       </div>
 
@@ -443,18 +443,18 @@ export default function JobsPage() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3 }}
-        className="glass-card p-4"
+        className="glass-card p-3 sm:p-4"
       >
-        <div className="flex flex-wrap items-center gap-4">
+        <div className="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-2 sm:gap-4">
           {/* Search */}
-          <div className="relative flex-1 min-w-[200px]">
+          <div className="relative flex-1 min-w-full sm:min-w-[200px]">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
             <input
               type="text"
               placeholder="Search by Job ID..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="input-field pl-10 w-full"
+              className="input-field pl-10 w-full text-sm"
             />
           </div>
 
@@ -462,7 +462,7 @@ export default function JobsPage() {
           <select
             value={typeFilter}
             onChange={(e) => setTypeFilter(e.target.value)}
-            className="input-field min-w-[150px]"
+            className="input-field min-w-0 flex-1 sm:min-w-[150px] text-sm"
           >
             <option value="all">All Types</option>
             {Object.entries(jobTypeConfig).map(([key, config]) => (
@@ -474,7 +474,7 @@ export default function JobsPage() {
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="input-field min-w-[140px]"
+            className="input-field min-w-0 flex-1 sm:min-w-[140px] text-sm"
           >
             <option value="all">All Status</option>
             {Object.entries(statusConfig).map(([key, config]) => (
@@ -486,7 +486,7 @@ export default function JobsPage() {
           <select
             value={gpuFilter}
             onChange={(e) => setGpuFilter(e.target.value)}
-            className="input-field min-w-[160px]"
+            className="input-field min-w-0 flex-1 sm:min-w-[160px] text-sm"
           >
             <option value="all">All GPUs</option>
             <option value="gpu_001">NVIDIA H100</option>
@@ -494,7 +494,7 @@ export default function JobsPage() {
             <option value="gpu_003">NVIDIA RTX 4090</option>
           </select>
 
-          <div className="text-sm text-gray-400">
+          <div className="text-xs sm:text-sm text-gray-400 sm:ml-auto">
             {filteredJobs.length} jobs
           </div>
         </div>
@@ -507,8 +507,8 @@ export default function JobsPage() {
         transition={{ delay: 0.35 }}
         className="glass-card overflow-hidden"
       >
-        {/* Table Header */}
-        <div className="grid grid-cols-12 gap-4 p-4 border-b border-surface-border text-sm font-medium text-gray-400 bg-surface-elevated/50">
+        {/* Table Header - Hidden on mobile */}
+        <div className="hidden lg:grid grid-cols-12 gap-4 p-4 border-b border-surface-border text-sm font-medium text-gray-400 bg-surface-elevated/50">
           <div className="col-span-2">Job ID</div>
           <div className="col-span-2">Type</div>
           <div className="col-span-2">GPU</div>
@@ -534,10 +534,10 @@ export default function JobsPage() {
                 animate={{ opacity: 1 }}
                 transition={{ delay: idx * 0.02 }}
               >
-                {/* Main Row */}
+                {/* Desktop Table Row - Hidden on mobile */}
                 <div
                   className={cn(
-                    "grid grid-cols-12 gap-4 p-4 items-center cursor-pointer transition-colors",
+                    "hidden lg:grid grid-cols-12 gap-4 p-4 items-center cursor-pointer transition-colors",
                     isExpanded ? "bg-surface-elevated" : "hover:bg-surface-elevated/50"
                   )}
                   onClick={() => setExpandedJob(isExpanded ? null : job.id)}
@@ -602,6 +602,76 @@ export default function JobsPage() {
                     ) : (
                       <span className="text-gray-600">—</span>
                     )}
+                  </div>
+                </div>
+
+                {/* Mobile Card View - Hidden on desktop */}
+                <div
+                  className={cn(
+                    "lg:hidden p-3 sm:p-4 cursor-pointer transition-colors",
+                    isExpanded ? "bg-surface-elevated" : "hover:bg-surface-elevated/50"
+                  )}
+                  onClick={() => setExpandedJob(isExpanded ? null : job.id)}
+                >
+                  <div className="flex items-start justify-between mb-3">
+                    <div className="flex items-center gap-2 flex-1 min-w-0">
+                      <div className={cn("p-1.5 rounded-lg flex-shrink-0", typeConfig?.bg)}>
+                        <TypeIcon className={cn("w-4 h-4", typeConfig?.color)} />
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <code className="text-xs text-white font-mono block truncate">{job.id}</code>
+                        <span className="text-xs text-gray-400 block">{typeConfig?.label}</span>
+                      </div>
+                    </div>
+                    {isExpanded ? (
+                      <ChevronUp className="w-4 h-4 text-gray-500 flex-shrink-0 ml-2" />
+                    ) : (
+                      <ChevronDown className="w-4 h-4 text-gray-500 flex-shrink-0 ml-2" />
+                    )}
+                  </div>
+                  
+                  <div className="grid grid-cols-2 gap-2 text-xs">
+                    <div>
+                      <span className="text-gray-500">GPU:</span>
+                      <span className="text-white ml-1">{job.gpu.name}</span>
+                    </div>
+                    <div>
+                      <span className="text-gray-500">Duration:</span>
+                      <span className="text-white ml-1">{job.duration}</span>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-center justify-between mt-3 pt-3 border-t border-surface-border">
+                    <span className={cn(
+                      "badge text-[10px] flex items-center gap-1",
+                      status?.bg,
+                      status?.color
+                    )}>
+                      <StatusIcon className={cn("w-3 h-3", status?.animate && "animate-spin")} />
+                      {status?.label}
+                    </span>
+                    
+                    <div className="flex items-center gap-3">
+                      {job.earned !== "—" && job.earned !== "0.00" ? (
+                        <span className="text-emerald-400 font-medium text-sm">+{job.earned} SAGE</span>
+                      ) : job.earned === "0.00" ? (
+                        <span className="text-red-400 text-sm">0.00 SAGE</span>
+                      ) : (
+                        <span className="text-gray-500 text-sm">—</span>
+                      )}
+                      
+                      {job.proofId && (
+                        <a
+                          href={`https://sepolia.starkscan.co/tx/${job.proofId}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-brand-400 hover:text-brand-300"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          <ExternalLink className="w-3.5 h-3.5" />
+                        </a>
+                      )}
+                    </div>
                   </div>
                 </div>
 

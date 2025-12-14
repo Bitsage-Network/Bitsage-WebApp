@@ -14,6 +14,7 @@ import {
   Shield,
   Send,
   Wallet,
+  X,
 } from "lucide-react";
 import { LogoIcon } from "@/components/ui/Logo";
 import { motion, AnimatePresence } from "framer-motion";
@@ -67,18 +68,41 @@ const navItems = [
 interface SidebarProps {
   collapsed: boolean;
   onToggle: () => void;
+  mobileOpen: boolean;
+  onMobileClose: () => void;
 }
 
-export function Sidebar({ collapsed, onToggle }: SidebarProps) {
+export function Sidebar({ collapsed, onToggle, mobileOpen, onMobileClose }: SidebarProps) {
   const pathname = usePathname();
 
   return (
-    <motion.aside
-      initial={false}
-      animate={{ width: collapsed ? 80 : 280 }}
-      transition={{ duration: 0.3, ease: "easeInOut" }}
-      className="fixed left-0 top-0 h-screen bg-surface-card border-r border-surface-border z-40 flex flex-col"
-    >
+    <>
+      {/* Mobile Overlay */}
+      <AnimatePresence>
+        {mobileOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={onMobileClose}
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 lg:hidden"
+          />
+        )}
+      </AnimatePresence>
+
+      {/* Sidebar */}
+      <motion.aside
+        initial={false}
+        animate={{ 
+          width: collapsed ? 80 : 280,
+        }}
+        transition={{ duration: 0.3, ease: "easeInOut" }}
+        className={cn(
+          "fixed left-0 top-0 h-screen bg-surface-card border-r border-surface-border z-50 flex flex-col",
+          "lg:translate-x-0",
+          mobileOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
+        )}
+      >
       {/* Logo */}
       <div className="h-14 flex items-center justify-between px-4 border-b border-surface-border">
         <Link href="/dashboard" className="flex items-center gap-3">
@@ -98,9 +122,17 @@ export function Sidebar({ collapsed, onToggle }: SidebarProps) {
             )}
           </AnimatePresence>
         </Link>
+        {/* Mobile Close Button */}
+        <button
+          onClick={onMobileClose}
+          className="lg:hidden p-2 rounded-lg hover:bg-surface-elevated transition-colors"
+        >
+          <X className="w-5 h-5 text-gray-400" />
+        </button>
+        {/* Desktop Collapse Toggle */}
         <button
           onClick={onToggle}
-          className="p-2 rounded-lg hover:bg-surface-elevated transition-colors"
+          className="hidden lg:block p-2 rounded-lg hover:bg-surface-elevated transition-colors"
         >
           {collapsed ? (
             <ChevronRight className="w-4 h-4 text-gray-400" />
@@ -136,6 +168,7 @@ export function Sidebar({ collapsed, onToggle }: SidebarProps) {
             <Link
               key={item.href}
               href={item.href}
+              onClick={onMobileClose}
               className={cn(
                 "nav-item group",
                 isActive && "active",
@@ -179,6 +212,7 @@ export function Sidebar({ collapsed, onToggle }: SidebarProps) {
               </p>
               <Link
                 href="/docs"
+                onClick={onMobileClose}
                 className="inline-flex items-center gap-1 text-xs text-brand-400 hover:text-brand-300"
               >
                 View Setup Guide <ExternalLink className="w-3 h-3" />
@@ -187,6 +221,9 @@ export function Sidebar({ collapsed, onToggle }: SidebarProps) {
           )}
         </AnimatePresence>
       </nav>
+    </>
+  );
+}
 
       {/* Collapsed indicator for network */}
       {collapsed && (

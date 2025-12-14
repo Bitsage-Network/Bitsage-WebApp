@@ -21,6 +21,12 @@ export const metadata: Metadata = {
     icon: "/favicon.png",
     apple: "/favicon.png",
   },
+  viewport: {
+    width: "device-width",
+    initialScale: 1,
+    maximumScale: 1,
+    userScalable: false,
+  },
   openGraph: {
     title: "BitSage Network",
     description: "Decentralized GPU Compute on Starknet",

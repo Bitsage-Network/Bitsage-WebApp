@@ -1,4 +1,4 @@
-import type { Metadata, Viewport } from "next";
+import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { StarknetProvider } from "@/lib/starknet/provider";
@@ -13,7 +13,7 @@ const jetbrainsMono = JetBrains_Mono({
   variable: "--font-mono",
 });
 
-export const viewport: Viewport = {
+export const viewport = {
   width: "device-width",
   initialScale: 1,
   maximumScale: 1,

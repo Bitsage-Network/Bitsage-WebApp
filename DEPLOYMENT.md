@@ -1,4 +1,4 @@
-# 🚀 BitSage WebApp Deployment Guide
+# 🚀 BitSage Validator Dashboard Deployment Guide
 
 ## Quick Deploy to Vercel
 
@@ -6,7 +6,7 @@
 
 Click the button below to deploy with one click:
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/Bitsage-Network/Bitsage-WebApp)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/Bitsage-Network/Bitsage-Validator)
 
 ### Option 2: Manual Vercel Deployment
 
@@ -15,7 +15,7 @@ Click the button below to deploy with one click:
 npm install -g vercel
 
 # Navigate to project
-cd BitSage-WebApp
+cd BitSage-Validator
 
 # Login to Vercel
 vercel login
@@ -164,8 +164,8 @@ CMD ["npm", "start"]
 Build and run:
 
 ```bash
-docker build -t bitsage-webapp .
-docker run -p 3000:3000 bitsage-webapp
+docker build -t bitsage-validator .
+docker run -p 3000:3000 bitsage-validator
 ```
 
 ---
@@ -197,7 +197,7 @@ npm run build
 
 ## 📞 Support
 
-- **Issues**: [GitHub Issues](https://github.com/Bitsage-Network/Bitsage-WebApp/issues)
+- **Issues**: [GitHub Issues](https://github.com/Bitsage-Network/Bitsage-Validator/issues)
 - **Discord**: [Join our community](https://discord.gg/bitsage)
 - **Email**: support@bitsage.network
 

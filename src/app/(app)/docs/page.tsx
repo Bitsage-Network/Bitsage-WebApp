@@ -87,9 +87,9 @@ export default function DocsPage() {
   );
 
   return (
-    <div className="space-y-4 lg:space-y-0">
+    <div className="space-y-4 lg:space-y-0 min-h-screen">
       {/* Mobile Section Selector */}
-      <div className="lg:hidden">
+      <div className="lg:hidden px-4 sm:px-0">
         <div className="glass-card p-3">
           <label className="block text-xs font-medium text-gray-400 mb-2">Jump to section</label>
           <select
@@ -106,7 +106,7 @@ export default function DocsPage() {
         </div>
       </div>
 
-      <div className="flex gap-6 lg:gap-8">
+      <div className="flex flex-col lg:flex-row gap-6 lg:gap-8">
         {/* Desktop Sidebar */}
         <motion.aside
           initial={{ opacity: 0, x: -20 }}
@@ -142,7 +142,7 @@ export default function DocsPage() {
         <motion.main
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="flex-1 max-w-full lg:max-w-3xl"
+          className="flex-1 w-full max-w-full lg:max-w-3xl px-4 sm:px-0"
         >
         {activeSection === "quickstart" && (
           <div className="space-y-6 sm:space-y-8">

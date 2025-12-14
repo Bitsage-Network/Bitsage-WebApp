@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { StarknetProvider } from "@/lib/starknet/provider";
@@ -13,29 +13,30 @@ const jetbrainsMono = JetBrains_Mono({
   variable: "--font-mono",
 });
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+};
+
 export const metadata: Metadata = {
-  title: "BitSage Network - Decentralized GPU Compute",
-  description: "Run AI workloads on decentralized GPU infrastructure with cryptographic proofs on Starknet",
-  keywords: ["GPU", "AI", "decentralized", "compute", "Starknet", "ZK proofs", "SAGE", "validator"],
+  title: "BitSage Validator - GPU Provider Dashboard",
+  description: "Manage your GPU validator node on BitSage Network. Monitor performance, track earnings, and validate AI workloads on Starknet.",
+  keywords: ["GPU", "validator", "provider", "AI", "compute", "Starknet", "ZK proofs", "SAGE", "dashboard"],
   icons: {
     icon: "/favicon.png",
     apple: "/favicon.png",
   },
-  viewport: {
-    width: "device-width",
-    initialScale: 1,
-    maximumScale: 1,
-    userScalable: false,
-  },
   openGraph: {
-    title: "BitSage Network",
-    description: "Decentralized GPU Compute on Starknet",
+    title: "BitSage Validator Dashboard",
+    description: "GPU Provider Dashboard for BitSage Network",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "BitSage Network",
-    description: "Decentralized GPU Compute on Starknet",
+    title: "BitSage Validator Dashboard",
+    description: "GPU Provider Dashboard for BitSage Network",
   },
 };
 

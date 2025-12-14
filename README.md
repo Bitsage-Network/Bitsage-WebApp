@@ -1,9 +1,9 @@
 <div align="center">
   <img src="public/brand/logo.svg" alt="BitSage Logo" width="200"/>
   
-  # BitSage Network WebApp
+  # BitSage Validator Dashboard
   
-  **Starknet-Native Validator Interface with Advanced Privacy**
+  **GPU Provider & Validator Management Dashboard**
   
   [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
   [![Next.js](https://img.shields.io/badge/Next.js-14-black)](https://nextjs.org/)
@@ -17,7 +17,7 @@
 
 ## 🌟 Overview
 
-BitSage WebApp is a **validator-first, privacy-focused** decentralized GPU compute network interface built on Starknet. It features the **Obelysk Wallet** - a revolutionary privacy layer for GPU earnings with ElGamal encryption and zero-knowledge proofs.
+The BitSage Validator Dashboard is a **validator-first, privacy-focused** GPU provider management interface built on Starknet. Monitor your validator node, track earnings, manage jobs, and access the **Obelysk Privacy Wallet** - a revolutionary privacy layer for GPU earnings with ElGamal encryption and zero-knowledge proofs.
 
 ### Key Features
 
@@ -41,8 +41,8 @@ BitSage WebApp is a **validator-first, privacy-focused** decentralized GPU compu
 
 ```bash
 # Clone the repository
-git clone https://github.com/Bitsage-Network/Bitsage-WebApp.git
-cd Bitsage-WebApp
+git clone https://github.com/Bitsage-Network/Bitsage-Validator.git
+cd Bitsage-Validator
 
 # Install dependencies
 npm install
@@ -79,7 +79,7 @@ npm start
 ### Project Structure
 
 ```
-BitSage-WebApp/
+BitSage-Validator/
 ├── src/
 │   ├── app/
 │   │   ├── (app)/              # Authenticated pages
@@ -299,7 +299,7 @@ NEXT_PUBLIC_DEMO_MODE=true
 
 The easiest way to deploy is using Vercel:
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/Bitsage-Network/Bitsage-WebApp)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/Bitsage-Network/Bitsage-Validator)
 
 **Steps**:
 
@@ -317,7 +317,7 @@ The easiest way to deploy is using Vercel:
 npm i -g vercel
 
 # Deploy to Vercel
-cd BitSage-WebApp
+cd BitSage-Validator
 vercel
 
 # Deploy to production

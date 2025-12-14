@@ -58,23 +58,21 @@ const docsSections = [
   },
 ];
 
-export default function DocsPage() {
-  const [activeSection, setActiveSection] = useState("quickstart");
-  const [copiedCommand, setCopiedCommand] = useState<string | null>(null);
+interface CodeBlockProps {
+  code: string;
+  id: string;
+  copiedCommand: string | null;
+  onCopy: (text: string, id: string) => void;
+}
 
-  const copyToClipboard = (text: string, id: string) => {
-    navigator.clipboard.writeText(text);
-    setCopiedCommand(id);
-    setTimeout(() => setCopiedCommand(null), 2000);
-  };
-
-  const CodeBlock = ({ code, id }: { code: string; id: string }) => (
+function CodeBlock({ code, id, copiedCommand, onCopy }: CodeBlockProps) {
+  return (
     <div className="relative group">
       <pre className="p-3 sm:p-4 rounded-xl bg-surface-dark border border-surface-border overflow-x-auto">
         <code className="text-xs sm:text-sm text-gray-300 font-mono">{code}</code>
       </pre>
       <button
-        onClick={() => copyToClipboard(code, id)}
+        onClick={() => onCopy(code, id)}
         className="absolute top-2 right-2 sm:top-3 sm:right-3 p-1.5 sm:p-2 rounded-lg bg-surface-elevated opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity"
       >
         {copiedCommand === id ? (
@@ -85,6 +83,17 @@ export default function DocsPage() {
       </button>
     </div>
   );
+}
+
+export default function DocsPage() {
+  const [activeSection, setActiveSection] = useState("quickstart");
+  const [copiedCommand, setCopiedCommand] = useState<string | null>(null);
+
+  const copyToClipboard = (text: string, id: string) => {
+    navigator.clipboard.writeText(text);
+    setCopiedCommand(id);
+    setTimeout(() => setCopiedCommand(null), 2000);
+  };
 
   return (
     <div className="space-y-4 lg:space-y-0 min-h-screen">
@@ -181,6 +190,8 @@ export default function DocsPage() {
               <h2 className="text-base sm:text-lg font-semibold text-white">1. Install the CLI</h2>
               <CodeBlock
                 id="install"
+                copiedCommand={copiedCommand}
+                onCopy={copyToClipboard}
                 code={`# Install BitSage CLI
 curl -sSL https://get.bitsage.network | bash
 
@@ -193,6 +204,8 @@ bitsage --version`}
               <h2 className="text-base sm:text-lg font-semibold text-white">2. Initialize Your Node</h2>
               <CodeBlock
                 id="init"
+                copiedCommand={copiedCommand}
+                onCopy={copyToClipboard}
                 code={`# Initialize node configuration
 bitsage init --name "my-validator"
 
@@ -205,6 +218,8 @@ bitsage config set wallet <YOUR_STARKNET_ADDRESS>`}
               <h2 className="text-base sm:text-lg font-semibold text-white">3. Start Validating</h2>
               <CodeBlock
                 id="start"
+                copiedCommand={copiedCommand}
+                onCopy={copyToClipboard}
                 code={`# Start the validator node
 bitsage start
 
@@ -315,6 +330,8 @@ bitsage status`}
               <h2 className="text-base sm:text-lg font-semibold text-white">1. Install Dependencies</h2>
               <CodeBlock
                 id="deps"
+                copiedCommand={copiedCommand}
+                onCopy={copyToClipboard}
                 code={`# Update system
 sudo apt update && sudo apt upgrade -y
 
@@ -331,6 +348,8 @@ sudo usermod -aG docker $USER`}
               <h2 className="text-base sm:text-lg font-semibold text-white">2. Install BitSage CLI</h2>
               <CodeBlock
                 id="cli"
+                copiedCommand={copiedCommand}
+                onCopy={copyToClipboard}
                 code={`# Download and install
 curl -sSL https://get.bitsage.network | bash
 
@@ -347,6 +366,8 @@ bitsage --version
               <h2 className="text-base sm:text-lg font-semibold text-white">3. Verify GPU Detection</h2>
               <CodeBlock
                 id="gpu"
+                copiedCommand={copiedCommand}
+                onCopy={copyToClipboard}
                 code={`# Check GPU status
 nvidia-smi
 
@@ -377,6 +398,8 @@ bitsage gpu list
               </p>
               <CodeBlock
                 id="wallet"
+                copiedCommand={copiedCommand}
+                onCopy={copyToClipboard}
                 code={`# Set your Starknet wallet address
 bitsage config set wallet 0x0123456789abcdef...
 
@@ -389,6 +412,8 @@ bitsage wallet balance`}
               <h2 className="text-base sm:text-lg font-semibold text-white">2. Register as Validator</h2>
               <CodeBlock
                 id="register"
+                copiedCommand={copiedCommand}
+                onCopy={copyToClipboard}
                 code={`# Initialize validator registration
 bitsage validator register \\
   --name "my-validator" \\
@@ -470,6 +495,8 @@ bitsage validator register \\
               <h2 className="text-base sm:text-lg font-semibold text-white">Stake via CLI</h2>
               <CodeBlock
                 id="stake"
+                copiedCommand={copiedCommand}
+                onCopy={copyToClipboard}
                 code={`# Stake SAGE tokens
 bitsage stake add 5000
 
@@ -534,6 +561,8 @@ bitsage stake remove 1000`}
               <h2 className="text-base sm:text-lg font-semibold text-white">Enable TEE</h2>
               <CodeBlock
                 id="tee"
+                copiedCommand={copiedCommand}
+                onCopy={copyToClipboard}
                 code={`# Check TEE availability
 bitsage tee check
 

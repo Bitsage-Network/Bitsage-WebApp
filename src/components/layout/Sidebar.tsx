@@ -221,9 +221,6 @@ export function Sidebar({ collapsed, onToggle, mobileOpen, onMobileClose }: Side
           )}
         </AnimatePresence>
       </nav>
-    </>
-  );
-}
 
       {/* Collapsed indicator for network */}
       {collapsed && (
@@ -234,5 +231,6 @@ export function Sidebar({ collapsed, onToggle, mobileOpen, onMobileClose }: Side
         </div>
       )}
     </motion.aside>
+    </>
   );
 }

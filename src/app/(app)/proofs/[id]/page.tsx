@@ -138,13 +138,14 @@ const getMockProofData = (id: string) => {
         timestamp: Date.now() - 300000,
       },
       
-      // Execution Trace (simplified)
+      // Execution Phases (matches actual STWO prover pipeline)
       executionPhases: [
-        { name: "Setup", duration: 12000, status: "completed" },
-        { name: "Witness Generation", duration: 45000, status: "completed" },
-        { name: "Commitment", duration: 120000, status: "completed" },
-        { name: "FRI Computation", duration: 105000, status: "completed" },
-        { name: "Proof Composition", duration: 30000, status: "completed" },
+        { name: "Trace Generation", duration: 12000, status: "completed" },
+        { name: "Trace Commitment", duration: 45000, status: "completed" },
+        { name: "Constraint Evaluation", duration: 35000, status: "completed" },
+        { name: "Composition Commitment", duration: 40000, status: "completed" },
+        { name: "FRI Protocol", duration: 150000, status: "completed" },
+        { name: "Query Phase", duration: 30000, status: "completed" },
       ],
     },
     "proof_0x8a9b0c": {
@@ -216,11 +217,12 @@ const getMockProofData = (id: string) => {
       },
       teeAttestation: null,
       executionPhases: [
-        { name: "Setup", duration: 15000, status: "completed" },
-        { name: "Witness Generation", duration: 90000, status: "completed" },
-        { name: "Commitment", duration: 180000, status: "completed" },
-        { name: "FRI Computation", duration: 170000, status: "completed" },
-        { name: "Proof Composition", duration: 47000, status: "completed" },
+        { name: "Trace Generation", duration: 15000, status: "completed" },
+        { name: "Trace Commitment", duration: 90000, status: "completed" },
+        { name: "Constraint Evaluation", duration: 70000, status: "completed" },
+        { name: "Composition Commitment", duration: 110000, status: "completed" },
+        { name: "FRI Protocol", duration: 170000, status: "completed" },
+        { name: "Query Phase", duration: 47000, status: "completed" },
       ],
     },
     // Live proofs (in progress)
@@ -271,24 +273,27 @@ const getMockProofData = (id: string) => {
         securityBits: 100,
       },
       proofComponents: {
-        commitment: "0x... (generating)",
-        friCommitments: [],
-        oracleCommitment: "—",
+        // Commitments are computed progressively during proof generation
+        firstLayerCommitment: null, // Not yet computed
+        traceCommitments: [],       // Computing...
+        friCommitments: [],         // Pending FRI phase
+        lastLayerDegree: null,
         queryResponses: 0,
       },
       verification: {
         verifierContract: "0x0123456789abcdef0123456789abcdef01234567",
         verificationGas: 0,
         verificationTime: "—",
-        challengeSeed: "—",
+        channelState: "Fiat-Shamir (Blake2s)", // Consistent with completed proofs
       },
       teeAttestation: null,
       executionPhases: [
-        { name: "Setup", duration: 12000, status: "completed" },
-        { name: "Witness Generation", duration: 45000, status: "completed" },
-        { name: "Commitment", duration: 0, status: "in_progress" },
-        { name: "FRI Computation", duration: 0, status: "pending" },
-        { name: "Proof Composition", duration: 0, status: "pending" },
+        { name: "Trace Generation", duration: 12000, status: "completed" },
+        { name: "Trace Commitment", duration: 45000, status: "completed" },
+        { name: "Constraint Evaluation", duration: 0, status: "in_progress" },
+        { name: "Composition Commitment", duration: 0, status: "pending" },
+        { name: "FRI Protocol", duration: 0, status: "pending" },
+        { name: "Query Phase", duration: 0, status: "pending" },
       ],
     },
     "proof_live_002": {
@@ -336,24 +341,27 @@ const getMockProofData = (id: string) => {
         securityBits: 100,
       },
       proofComponents: {
-        commitment: "—",
+        // Early stage - only trace generation started
+        firstLayerCommitment: null,
+        traceCommitments: [],
         friCommitments: [],
-        oracleCommitment: "—",
+        lastLayerDegree: null,
         queryResponses: 0,
       },
       verification: {
         verifierContract: "0x0123456789abcdef0123456789abcdef01234567",
         verificationGas: 0,
         verificationTime: "—",
-        challengeSeed: "—",
+        channelState: "Fiat-Shamir (Blake2s)",
       },
       teeAttestation: null,
       executionPhases: [
-        { name: "Setup", duration: 8000, status: "completed" },
-        { name: "Witness Generation", duration: 0, status: "in_progress" },
-        { name: "Commitment", duration: 0, status: "pending" },
-        { name: "FRI Computation", duration: 0, status: "pending" },
-        { name: "Proof Composition", duration: 0, status: "pending" },
+        { name: "Trace Generation", duration: 8000, status: "completed" },
+        { name: "Trace Commitment", duration: 0, status: "in_progress" },
+        { name: "Constraint Evaluation", duration: 0, status: "pending" },
+        { name: "Composition Commitment", duration: 0, status: "pending" },
+        { name: "FRI Protocol", duration: 0, status: "pending" },
+        { name: "Query Phase", duration: 0, status: "pending" },
       ],
     },
   };

@@ -12,59 +12,53 @@ import {
   Gift,
   Clock,
   Coins,
-  Zap,
   Twitter,
   Users,
+  WifiOff,
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { LogoIcon } from "@/components/ui/Logo";
-import { FAUCET_CONFIG, EXTERNAL_LINKS } from "@/lib/contracts/addresses";
+import { EXTERNAL_LINKS } from "@/lib/contracts/addresses";
+import { useFaucetStatus, useFaucetConfig, useClaimFaucet, useApiHealth } from "@/lib/hooks/useApiData";
 
-// Social tasks for earning extra tokens (reduced rewards to prevent abuse)
+// Social tasks for earning extra tokens
 const socialTasks = [
   {
     id: "twitter_follow",
     title: "Follow on Twitter",
     description: "Follow @BitSageNetwork",
-    reward: FAUCET_CONFIG.socialTaskReward,
+    reward: "10",
     icon: Twitter,
     link: "https://twitter.com/BitSageNetwork",
-    completed: false,
-    oneTimeOnly: true, // Can only claim once per wallet
+    oneTimeOnly: true,
   },
   {
     id: "discord_join",
     title: "Join Discord",
     description: "Join our community",
-    reward: FAUCET_CONFIG.socialTaskReward,
+    reward: "10",
     icon: Users,
     link: "https://discord.gg/bitsage",
-    completed: false,
     oneTimeOnly: true,
   },
 ];
 
 export default function FaucetPage() {
   const { address } = useAccount();
-  const [isLoading, setIsLoading] = useState(false);
   const [success, setSuccess] = useState(false);
-  const [error, setError] = useState<string | null>(null);
   const [txHash, setTxHash] = useState<string | null>(null);
-  const [cooldownEnd, setCooldownEnd] = useState<number | null>(null);
-  const [timeRemaining, setTimeRemaining] = useState<string>("");
   const [completedTasks, setCompletedTasks] = useState<string[]>([]);
+  const [timeRemaining, setTimeRemaining] = useState<string>("");
 
-  // Check cooldown from localStorage
+  // API hooks
+  const { isOnline } = useApiHealth();
+  const { data: faucetStatus, isLoading: statusLoading, refetch: refetchStatus } = useFaucetStatus(address);
+  const { data: faucetConfig } = useFaucetConfig();
+  const claimMutation = useClaimFaucet();
+
+  // Load completed tasks from localStorage
   useEffect(() => {
     if (address) {
-      const lastClaim = localStorage.getItem(`faucet_${address}`);
-      if (lastClaim) {
-        const endTime = parseInt(lastClaim) + FAUCET_CONFIG.cooldown;
-        if (Date.now() < endTime) {
-          setCooldownEnd(endTime);
-        }
-      }
-      // Load completed tasks
       const tasks = localStorage.getItem(`faucet_tasks_${address}`);
       if (tasks) {
         setCompletedTasks(JSON.parse(tasks));
@@ -74,56 +68,53 @@ export default function FaucetPage() {
 
   // Update countdown timer
   useEffect(() => {
-    if (!cooldownEnd) return;
+    if (!faucetStatus || faucetStatus.can_claim) {
+      setTimeRemaining("");
+      return;
+    }
 
-    const interval = setInterval(() => {
-      const remaining = cooldownEnd - Date.now();
-      if (remaining <= 0) {
-        setCooldownEnd(null);
+    const updateTimer = () => {
+      const secs = faucetStatus.time_until_next_claim_secs;
+      if (secs <= 0) {
+        refetchStatus();
         setTimeRemaining("");
-      } else {
-        const hours = Math.floor(remaining / (1000 * 60 * 60));
-        const minutes = Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((remaining % (1000 * 60)) / 1000);
-        setTimeRemaining(`${hours}h ${minutes}m ${seconds}s`);
+        return;
       }
+
+      const hours = Math.floor(secs / 3600);
+      const minutes = Math.floor((secs % 3600) / 60);
+      const seconds = secs % 60;
+      setTimeRemaining(`${hours}h ${minutes}m ${seconds}s`);
+    };
+
+    updateTimer();
+    const interval = setInterval(() => {
+      updateTimer();
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [cooldownEnd]);
-
+  }, [faucetStatus, refetchStatus]);
 
   const handleRequestTokens = async () => {
-    if (!address || cooldownEnd) return;
+    if (!address || !faucetStatus?.can_claim) return;
 
-    setIsLoading(true);
-    setError(null);
     setSuccess(false);
+    setTxHash(null);
 
     try {
-      // TODO: Replace with actual faucet contract call
-      // For now, simulate the request
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-
-      // Simulate success
-      const mockTxHash = `0x${Math.random().toString(16).slice(2)}${Math.random().toString(16).slice(2)}`;
-      setTxHash(mockTxHash);
-      setSuccess(true);
-
-      // Set cooldown
-      const now = Date.now();
-      localStorage.setItem(`faucet_${address}`, now.toString());
-      setCooldownEnd(now + FAUCET_CONFIG.cooldown);
-    } catch (err: any) {
-      setError(err.message || "Failed to request tokens. Please try again later.");
-    } finally {
-      setIsLoading(false);
+      const result = await claimMutation.mutateAsync({ address });
+      if (result.success) {
+        setTxHash(result.transaction_hash);
+        setSuccess(true);
+      }
+    } catch (err) {
+      // Error handled by mutation
     }
   };
 
   const handleTaskComplete = (taskId: string) => {
     if (completedTasks.includes(taskId)) return;
-    
+
     const newCompleted = [...completedTasks, taskId];
     setCompletedTasks(newCompleted);
     if (address) {
@@ -132,6 +123,12 @@ export default function FaucetPage() {
   };
 
   const formatAddress = (addr: string) => `${addr.slice(0, 10)}...${addr.slice(-8)}`;
+
+  const isLoading = claimMutation.isPending;
+  const error = claimMutation.error?.message;
+  const canClaim = faucetStatus?.can_claim && !isLoading;
+  const cooldownActive = faucetStatus && !faucetStatus.can_claim;
+  const claimAmount = faucetStatus?.claim_amount_formatted || faucetConfig?.claim_amount_formatted || "20 SAGE";
 
   return (
     <div className="max-w-3xl mx-auto space-y-8">
@@ -147,9 +144,28 @@ export default function FaucetPage() {
         </motion.div>
         <h1 className="text-3xl font-bold text-white">Testnet Faucet</h1>
         <p className="text-gray-400 mt-2">
-          Get minimal SAGE tokens for testing. Earn more by joining our community!
+          Get SAGE tokens for testing on Sepolia. Earn more by joining our community!
         </p>
       </div>
+
+      {/* Connection Status */}
+      {!isOnline && (
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="p-4 rounded-xl bg-orange-500/10 border border-orange-500/30"
+        >
+          <div className="flex items-center gap-3">
+            <WifiOff className="w-5 h-5 text-orange-400" />
+            <div>
+              <p className="text-sm font-medium text-orange-400">API Unavailable</p>
+              <p className="text-sm text-gray-400">
+                Unable to connect to the faucet API. Please try again later.
+              </p>
+            </div>
+          </div>
+        </motion.div>
+      )}
 
       {/* Main Faucet Card */}
       <motion.div
@@ -166,13 +182,17 @@ export default function FaucetPage() {
               </div>
               <div>
                 <h2 className="text-lg font-semibold text-white">SAGE Token Faucet</h2>
-                <p className="text-sm text-gray-400">Sepolia Testnet</p>
+                <p className="text-sm text-gray-400">
+                  {faucetConfig?.network || "Sepolia"} Testnet
+                </p>
               </div>
             </div>
             <div className="text-right">
-              <p className="text-2xl font-bold text-white">{FAUCET_CONFIG.baseAmount}</p>
+              <p className="text-2xl font-bold text-white">{claimAmount.replace(" SAGE", "")}</p>
               <p className="text-sm text-gray-400">SAGE per request</p>
-              <p className="text-xs text-gray-500 mt-1">Minimal testnet amount</p>
+              <p className="text-xs text-gray-500 mt-1">
+                {faucetConfig?.cooldown_formatted || "24 hours"} cooldown
+              </p>
             </div>
           </div>
         </div>
@@ -199,18 +219,30 @@ export default function FaucetPage() {
             </div>
           </div>
 
-          {/* Token Amount Display */}
-          <div className="p-4 rounded-xl bg-surface-elevated border border-surface-border">
-            <div className="flex items-center gap-2 mb-2">
-              <LogoIcon className="text-brand-400" size={20} />
-              <span className="text-sm text-gray-400">SAGE Tokens</span>
+          {/* Token Amount & Stats */}
+          <div className="grid grid-cols-2 gap-4">
+            <div className="p-4 rounded-xl bg-surface-elevated border border-surface-border">
+              <div className="flex items-center gap-2 mb-2">
+                <LogoIcon className="text-brand-400" size={20} />
+                <span className="text-sm text-gray-400">Claim Amount</span>
+              </div>
+              <p className="text-2xl font-bold text-white">{claimAmount}</p>
             </div>
-            <p className="text-2xl font-bold text-white">{FAUCET_CONFIG.baseAmount}</p>
-            <p className="text-xs text-gray-500 mt-1">Per request (24h cooldown)</p>
+            {faucetStatus && (
+              <div className="p-4 rounded-xl bg-surface-elevated border border-surface-border">
+                <div className="flex items-center gap-2 mb-2">
+                  <Coins className="w-5 h-5 text-brand-400" />
+                  <span className="text-sm text-gray-400">Total Claimed</span>
+                </div>
+                <p className="text-2xl font-bold text-white">
+                  {faucetStatus.total_claimed_formatted || "0 SAGE"}
+                </p>
+              </div>
+            )}
           </div>
 
           {/* Cooldown Notice */}
-          {cooldownEnd && (
+          {cooldownActive && timeRemaining && (
             <div className="p-4 rounded-xl bg-orange-500/10 border border-orange-500/30">
               <div className="flex items-center gap-3">
                 <Clock className="w-5 h-5 text-orange-400" />
@@ -224,10 +256,25 @@ export default function FaucetPage() {
             </div>
           )}
 
+          {/* Faucet Disabled Notice */}
+          {faucetConfig && !faucetConfig.enabled && (
+            <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/30">
+              <div className="flex items-center gap-3">
+                <AlertCircle className="w-5 h-5 text-red-400" />
+                <div>
+                  <p className="text-sm font-medium text-red-400">Faucet Disabled</p>
+                  <p className="text-sm text-gray-400">
+                    The faucet is currently disabled. Please check back later.
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
+
           {/* Request Button */}
           <button
             onClick={handleRequestTokens}
-            disabled={isLoading || !address || !!cooldownEnd}
+            disabled={isLoading || !address || !canClaim || statusLoading || !isOnline}
             className="btn-glow w-full py-4 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isLoading ? (
@@ -235,7 +282,12 @@ export default function FaucetPage() {
                 <Loader2 className="w-5 h-5 animate-spin" />
                 Requesting Tokens...
               </>
-            ) : cooldownEnd ? (
+            ) : statusLoading ? (
+              <>
+                <Loader2 className="w-5 h-5 animate-spin" />
+                Checking Status...
+              </>
+            ) : cooldownActive ? (
               <>
                 <Clock className="w-5 h-5" />
                 Cooldown Active
@@ -243,7 +295,7 @@ export default function FaucetPage() {
             ) : (
               <>
                 <Gift className="w-5 h-5" />
-                Request {FAUCET_CONFIG.baseAmount} SAGE
+                Request {claimAmount}
               </>
             )}
           </button>
@@ -260,7 +312,7 @@ export default function FaucetPage() {
                 <div className="flex-1">
                   <p className="font-medium text-emerald-400">Tokens Sent Successfully!</p>
                   <p className="text-sm text-gray-400 mt-1">
-                    {FAUCET_CONFIG.baseAmount} SAGE have been sent to your wallet. No gas fees required!
+                    {claimAmount} have been sent to your wallet.
                   </p>
                   <a
                     href={`https://sepolia.starkscan.co/tx/${txHash}`}
@@ -306,7 +358,7 @@ export default function FaucetPage() {
           Earn More Tokens
         </h3>
         <p className="text-sm text-gray-400 mb-4">
-          Complete social tasks to earn significantly more SAGE tokens for testing
+          Complete social tasks to earn more SAGE tokens for testing
         </p>
         <div className="space-y-3">
           {socialTasks.map((task) => {
@@ -367,8 +419,8 @@ export default function FaucetPage() {
             Daily Limit
           </h3>
           <p className="text-sm text-gray-400">
-            You can request {FAUCET_CONFIG.baseAmount} SAGE once every 24 hours. This minimal amount prevents abuse. 
-            Complete social tasks above to earn +{FAUCET_CONFIG.socialTaskReward} SAGE each (one-time per wallet).
+            You can request {claimAmount} once every {faucetConfig?.cooldown_formatted || "24 hours"}.
+            Complete social tasks above to earn +10 SAGE each (one-time per wallet).
           </p>
         </motion.div>
 

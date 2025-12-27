@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { StarknetProvider } from "@/lib/starknet/provider";
+import { QueryProvider } from "@/lib/providers/QueryProvider";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -48,9 +49,11 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body className={`${inter.variable} ${jetbrainsMono.variable} font-sans`}>
-        <StarknetProvider>
-          {children}
-        </StarknetProvider>
+        <QueryProvider>
+          <StarknetProvider>
+            {children}
+          </StarknetProvider>
+        </QueryProvider>
       </body>
     </html>
   );

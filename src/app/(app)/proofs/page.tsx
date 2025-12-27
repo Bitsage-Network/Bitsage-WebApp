@@ -109,18 +109,19 @@ const mockLiveProofs = [
     startedAt: Date.now() - 180000, // 3 mins ago
     estimatedDuration: 480000, // 8 mins
     progress: 65,
-    currentPhase: "Commitment Generation",
+    currentPhase: "Constraint Evaluation",
     phases: [
-      { name: "Setup", status: "completed", duration: "12s" },
-      { name: "Witness Generation", status: "completed", duration: "45s" },
-      { name: "Commitment Generation", status: "in_progress", duration: "~2m" },
-      { name: "FRI Layer Computation", status: "pending", duration: "~3m" },
-      { name: "Proof Composition", status: "pending", duration: "~1m" },
+      { name: "Trace Generation", status: "completed", duration: "12s" },
+      { name: "Trace Commitment", status: "completed", duration: "45s" },
+      { name: "Constraint Evaluation", status: "in_progress", duration: "~1m" },
+      { name: "Composition Commitment", status: "pending", duration: "~1m" },
+      { name: "FRI Protocol", status: "pending", duration: "~3m" },
+      { name: "Query Phase", status: "pending", duration: "~30s" },
     ],
     stats: {
       constraintCount: "2,456,789",
       traceLength: "2^20",
-      fieldSize: "M31",
+      fieldSize: "M31 (ext: QM31)",
       memoryUsed: "48.2 GB",
       gpuUtilization: 94,
     },
@@ -133,18 +134,19 @@ const mockLiveProofs = [
     startedAt: Date.now() - 45000, // 45s ago
     estimatedDuration: 120000, // 2 mins
     progress: 22,
-    currentPhase: "Witness Generation",
+    currentPhase: "Trace Commitment",
     phases: [
-      { name: "Setup", status: "completed", duration: "8s" },
-      { name: "Witness Generation", status: "in_progress", duration: "~30s" },
-      { name: "Commitment Generation", status: "pending", duration: "~45s" },
-      { name: "FRI Layer Computation", status: "pending", duration: "~30s" },
-      { name: "Proof Composition", status: "pending", duration: "~15s" },
+      { name: "Trace Generation", status: "completed", duration: "8s" },
+      { name: "Trace Commitment", status: "in_progress", duration: "~20s" },
+      { name: "Constraint Evaluation", status: "pending", duration: "~15s" },
+      { name: "Composition Commitment", status: "pending", duration: "~15s" },
+      { name: "FRI Protocol", status: "pending", duration: "~30s" },
+      { name: "Query Phase", status: "pending", duration: "~10s" },
     ],
     stats: {
       constraintCount: "65,536",
       traceLength: "2^16",
-      fieldSize: "M31",
+      fieldSize: "M31 (ext: QM31)",
       memoryUsed: "4.8 GB",
       gpuUtilization: 78,
     },
@@ -168,7 +170,7 @@ const mockHistoricalProofs = [
     stats: {
       constraintCount: "2,456,789",
       traceLength: "2^20",
-      fieldSize: "M31",
+      fieldSize: "M31 (ext: QM31)",
     },
     client: "0x04f2...3a1b",
     reward: "1.20",
@@ -188,7 +190,7 @@ const mockHistoricalProofs = [
     stats: {
       constraintCount: "4,892,156",
       traceLength: "2^22",
-      fieldSize: "M31",
+      fieldSize: "M31 (ext: QM31)",
     },
     client: "0x09e4...1a7b",
     reward: "2.15",
@@ -208,7 +210,7 @@ const mockHistoricalProofs = [
     stats: {
       constraintCount: "1,245,678",
       traceLength: "2^18",
-      fieldSize: "M31",
+      fieldSize: "M31 (ext: QM31)",
     },
     client: "0x01d4...8b3c",
     reward: "1.65",
@@ -228,7 +230,7 @@ const mockHistoricalProofs = [
     stats: {
       constraintCount: "512,000",
       traceLength: "2^14",
-      fieldSize: "M31",
+      fieldSize: "M31 (ext: QM31)",
     },
     client: "0x06e5...9c4d",
     reward: "0.85",
@@ -248,7 +250,7 @@ const mockHistoricalProofs = [
     stats: {
       constraintCount: "3,245,000",
       traceLength: "2^21",
-      fieldSize: "M31",
+      fieldSize: "M31 (ext: QM31)",
     },
     client: "0x08f6...0d5e",
     reward: "0.00",

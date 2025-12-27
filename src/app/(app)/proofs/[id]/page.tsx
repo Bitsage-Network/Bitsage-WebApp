@@ -91,7 +91,7 @@ const getMockProofData = (id: string) => {
         constraintCount: 2456789,
         traceLength: "2^20",
         traceRows: 1048576,
-        fieldSize: "M31 / QM31", // M31 base field, QM31 extension field
+        fieldSize: "M31 (ext: QM31)", // M31 base field, QM31 extension for security
         blowupFactor: 2, // log_blowup_factor = 2 means 4x expansion
         numQueries: 100, // n_queries in FriConfig
         friLayers: 15, // first_layer + inner_layers.len() + last_layer
@@ -115,8 +115,7 @@ const getMockProofData = (id: string) => {
         ],
         // Last layer polynomial degree
         lastLayerDegree: 8,
-        // Proof of work nonce (grinding)
-        proofOfWork: "0x7a3f8c2d",
+        // Query count matches FriConfig.n_queries
         queryResponses: 100,
       },
       
@@ -190,7 +189,7 @@ const getMockProofData = (id: string) => {
         constraintCount: 4892156,
         traceLength: "2^22",
         traceRows: 4194304,
-        fieldSize: "M31 / QM31",
+        fieldSize: "M31 (ext: QM31)",
         blowupFactor: 2,
         numQueries: 120,
         friLayers: 18,
@@ -206,7 +205,6 @@ const getMockProofData = (id: string) => {
           "0xefg890bcd234567890123456789012345678901234567890123456789012345efg",
         ],
         lastLayerDegree: 16,
-        proofOfWork: "0x2b4e8f1a",
         queryResponses: 120,
       },
       verification: {
@@ -266,7 +264,7 @@ const getMockProofData = (id: string) => {
         constraintCount: 2456789,
         traceLength: "2^20",
         traceRows: 1048576,
-        fieldSize: "M31",
+        fieldSize: "M31 (ext: QM31)",
         blowupFactor: 2,
         numQueries: 100,
         friLayers: 15,
@@ -334,7 +332,7 @@ const getMockProofData = (id: string) => {
         constraintCount: 65536,
         traceLength: "2^16",
         traceRows: 65536,
-        fieldSize: "M31",
+        fieldSize: "M31 (ext: QM31)",
         blowupFactor: 2,
         numQueries: 80,
         friLayers: 12,
@@ -445,10 +443,16 @@ export default function ProofDetailPage() {
       tx_hash: proof.txHash,
       input_hash: proof.input.hash,
       output_hash: proof.output.hash,
-      first_layer_commitment: proof.proofComponents.firstLayerCommitment || proof.proofComponents.commitment,
-      fri_commitments: proof.proofComponents.friCommitments,
-      trace_commitments: proof.proofComponents.traceCommitments,
-      proof_of_work: proof.proofComponents.proofOfWork,
+      // STWO proof components
+      commitments: {
+        first_layer: proof.proofComponents.firstLayerCommitment,
+        trace: proof.proofComponents.traceCommitments,
+        fri_layers: proof.proofComponents.friCommitments,
+      },
+      fri_config: {
+        last_layer_degree: proof.proofComponents.lastLayerDegree,
+        query_count: proof.proofComponents.queryResponses,
+      },
       circuit_stats: proof.circuit,
       verification: proof.verification,
     };
@@ -1014,13 +1018,8 @@ export default function ProofDetailPage() {
                 <StatItem label="Query Count" value={proof.proofComponents.queryResponses.toString()} />
               </div>
               
-              {/* Proof of Work (grinding nonce) */}
-              {proof.proofComponents.proofOfWork && (
-                <div className="p-3 rounded-lg bg-surface-elevated/50">
-                  <p className="text-xs text-gray-500 mb-1">Proof of Work (Grinding)</p>
-                  <code className="text-sm text-brand-400 font-mono">{proof.proofComponents.proofOfWork}</code>
-                </div>
-              )}
+              {/* Security Nonce - internal STWO grinding result (not user-facing) */}
+              {/* Removed: This is an internal prover detail, not meaningful to display */}
             </div>
           </CollapsibleSection>
 
